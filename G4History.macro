@@ -1,0 +1,38 @@
+/vis/viewer/set/background black
+/vis/geometry/set/colour all -1 0 0 0
+/vis/scene/notifyHandlers
+/vis/drawVolume worlds
+/vis/scene/create
+/vis/scene/add/volume worlds -1 -1 none m 0 0 0 0 0 0
+/vis/sceneHandler/attach
+/vis/scene/add/trajectories
+/tracking/storeTrajectory 1
+/vis/scene/notifyHandlers
+/vis/scene/endOfEventAction accumulate
+/vis/scene/add/axes
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour target_logic 0 0.5 0.5 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid target_logic
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour PID_logic 0 1.5 0.5 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid PID_logic
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Energy_logic 0 0.5 1.5 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Energy_logic
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Layer_logic 0 0.5 0.5 1.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Layer_logic
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Dummy_logic 0 0.5 1.5 1.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Dummy_logic
+/vis/scene/notifyHandlers
+/vis/scene/add/date
+/vis/scene/notifyHandlers
+/vis/scene/add/hits
+/vis/scene/notifyHandlers
+/vis/viewer/save /home/semyon/CLionProjects/cumulative/pictures/geometry.png
