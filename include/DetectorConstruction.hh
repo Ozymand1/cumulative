@@ -16,7 +16,7 @@ public:
     G4VPhysicalVolume* CreateEnergyDetector(G4LogicalVolume* world_logic);
     G4VPhysicalVolume* CreateTarget(G4LogicalVolume* world_logic);
     G4VPhysicalVolume* CreateDummy(G4LogicalVolume* world_logic);
-    G4LogicalVolume* CreateTrackingLayer();
+    G4LogicalVolume* CreateTrackingLayer(G4double distance_from_target, int number);
     explicit DetectorConstruction(TupleId* tupleId) : tupleId(tupleId){
         InitializeMaterials();
     }

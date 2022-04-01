@@ -6,6 +6,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4SystemOfUnits.hh"
 #include <G4Tubs.hh>
+#include <G4Cons.hh>
 
 //#include "CylindricalSD.hh"
 
@@ -82,7 +83,7 @@ G4VPhysicalVolume* DetectorConstruction::CreatePIDdetector(G4LogicalVolume *worl
                                          world_logic,
                                          false,
                                          0);
-
+    G4cout<<PID_position/cm<<G4endl;
     return PID_phys;
 }
 
@@ -108,12 +109,18 @@ G4VPhysicalVolume* DetectorConstruction::CreateEnergyDetector(G4LogicalVolume *w
 }
 
 G4VPhysicalVolume* DetectorConstruction::CreateTrackingDetector(G4LogicalVolume *world_logic) {
-    auto Track_solid = new G4Tubs("Track_solid",
-                                   0,
-                                   0.5 *  Track_diameter,
-                                   0.5 * Track_lenght,
-                                   0,
-                                   2 * pi);
+    double rmin1 = Track_distance_from_target * tan(theta_1) - 1.0*cm;
+    double rmax1 = Track_distance_from_target * tan(theta_2) + 1.0*cm;
+    double rmin2 = (Track_distance_from_target + Track_lenght) * tan(theta_2) - 1.0*cm;
+    double rmax2 = (Track_distance_from_target + Track_lenght) * tan(theta_2) + 1.0*cm;
+    auto Track_solid = new G4Cons("Track_solid",
+                                  0.5*rmin2,
+                                  0.5*rmax2,
+                                  0.5*rmin1,
+                                  0.5*rmax1,
+                                  0.5*Track_lenght,
+                                  0,
+                                  2*pi);
     auto Track_logic = new G4LogicalVolume(Track_solid,
                                            vacuum,
                                             "Track_logic");
@@ -124,32 +131,42 @@ G4VPhysicalVolume* DetectorConstruction::CreateTrackingDetector(G4LogicalVolume 
                                          world_logic,
                                          false,
                                          0);
-    auto Layer_logic = CreateTrackingLayer();
-
-    for (int i = 0; i < 3; i++) {
+    std::cout<<Track_position.z()/cm<<std::endl;
+    G4LogicalVolume* Layer_logic[Number_of_tracking_layers];
+    G4double parts = 1.0/(Number_of_tracking_layers-1);
+    for (int i = 0; i < Number_of_tracking_layers; i++) {
+        auto x = Track_position.x();
+        auto y = Track_position.y();
+        auto z =  - i * (Track_lenght * parts - 0.5 * layer_width) + 0.5 * Track_lenght;
+        G4ThreeVector position = G4ThreeVector(x,y,z);
+        z = -1 * Track_distance_from_target - 0.5 * layer_width- i * (Track_lenght * parts - 0.5 * layer_width);
+        Layer_logic[i] = CreateTrackingLayer(abs(z), i);
+        std::cout<<z/cm<<std::endl;
         auto Layer_phys = new G4PVPlacement(0,
-                                            G4ThreeVector(Track_position.x()/cm,
-                                                          Track_position.y()/cm,
-                                                          Track_position.z()/cm + i * cm + Track_lenght + layer_width),
-                                            Layer_logic,
+                                            position,
+                                            Layer_logic[i],
                                             "Tracking_Layer",
                                             Track_logic,
                                             false,
-                                            i);
+                                            0);
     }
     return Track_phys;
 }
 
-G4LogicalVolume* DetectorConstruction::CreateTrackingLayer() {
-    auto Layer_solid = new G4Tubs("Layer_solid",
+G4LogicalVolume* DetectorConstruction::CreateTrackingLayer(G4double distance_from_target, int number) {
+    G4double Track_inner_diameter = (distance_from_target + 1 * Track_distance_from_target + 0.5 * layer_width-0.5*Track_lenght) * tan(theta_1);
+    G4double Track_outer_diameter = (distance_from_target + 1 * Track_distance_from_target + 0.5 * layer_width-0.5*Track_lenght) * tan(theta_2);
+    std::string  solid_name = "Layer_solid_" + to_string(number);
+    std::string  logic_name = "Layer_logic_" + to_string(number);
+    auto Layer_solid = new G4Tubs(solid_name,
                                   0.5 * Track_inner_diameter,
-                                  0.5 * Track_diameter,
+                                  0.5 * Track_outer_diameter,
                                   0.5 * layer_width,
                                   0,
                                   2 * pi);
     auto Layer_logic = new G4LogicalVolume(Layer_solid,
                                            Track_mat,
-                                           "Layer_logic");
+                                           logic_name);
     return Layer_logic;
 
 }

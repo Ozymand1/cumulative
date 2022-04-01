@@ -1,4 +1,4 @@
-/vis/viewer/set/background black
+/vis/viewer/set/background white
 /vis/geometry/set/colour all -1 0 0 0
 /vis/scene/notifyHandlers
 /vis/drawVolume worlds
@@ -23,9 +23,21 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/forceSolid Energy_logic
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Layer_logic 0 0.5 0.5 1.5
+/vis/geometry/set/colour Layer_logic_0 0 0.5 0.5 1.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/forceSolid Layer_logic
+/vis/geometry/set/forceSolid Layer_logic_0
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Layer_logic_1 0 0.5 0.5 1.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Layer_logic_1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Layer_logic_2 0 0.5 0.5 1.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Layer_logic_2
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Layer_logic_3 0 0.5 0.5 1.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/forceSolid Layer_logic_3
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Dummy_logic 0 0.5 1.5 1.5
 /vis/scene/notifyHandlers
@@ -35,4 +47,3 @@
 /vis/scene/notifyHandlers
 /vis/scene/add/hits
 /vis/scene/notifyHandlers
-/vis/viewer/save /home/semyon/CLionProjects/cumulative/pictures/geometry.png

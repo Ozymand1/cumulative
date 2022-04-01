@@ -2,7 +2,7 @@
 /control/saveHistory
 
 #/vis/verbose errors
-/vis/viewer/set/background white
+/vis/viewer/set/background black
 /vis/geometry/set/colour all -1 0 0 0
 /vis/drawVolume worlds
 /vis/scene/add/trajectories
@@ -18,17 +18,8 @@
 /vis/geometry/set/colour Energy_logic 0 0.5 1.5 0.5
 /vis/geometry/set/forceSolid Energy_logic
 
-/vis/geometry/set/colour Layer_logic_0 0 0.5 0.5 1.5
-/vis/geometry/set/forceSolid Layer_logic_0
-
-/vis/geometry/set/colour Layer_logic_1 0 0.5 0.5 1.5
-/vis/geometry/set/forceSolid Layer_logic_1
-
-/vis/geometry/set/colour Layer_logic_2 0 0.5 0.5 1.5
-/vis/geometry/set/forceSolid Layer_logic_2
-
-/vis/geometry/set/colour Layer_logic_3 0 0.5 0.5 1.5
-/vis/geometry/set/forceSolid Layer_logic_3
+/vis/geometry/set/colour Layer_logic 0 0.5 0.5 1.5
+/vis/geometry/set/forceSolid Layer_logic
 
 /vis/geometry/set/colour Dummy_logic 0 0.5 1.5 1.5
 /vis/geometry/set/forceSolid Dummy_logic
