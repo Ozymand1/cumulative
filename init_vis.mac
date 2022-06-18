@@ -7,13 +7,13 @@
 /vis/drawVolume worlds
 /vis/scene/add/trajectories
 /vis/scene/endOfEventAction accumulate
-/vis/scene/add/axes
+
 
 /vis/geometry/set/colour target_logic 0 0.5 0.5 0.5
 /vis/geometry/set/forceSolid target_logic
 
-/vis/geometry/set/colour PID_logic 0 1.5 0.5 0.5
-/vis/geometry/set/forceSolid PID_logic
+/vis/geometry/set/colour TOF_logic 0 1.5 0.5 0.5
+/vis/geometry/set/forceSolid TOF_logic
 
 /vis/geometry/set/colour Energy_logic 0 0.5 1.5 0.5
 /vis/geometry/set/forceSolid Energy_logic
@@ -27,12 +27,7 @@
 /vis/geometry/set/colour Layer_logic_2 0 0.5 0.5 1.5
 /vis/geometry/set/forceSolid Layer_logic_2
 
-/vis/geometry/set/colour Layer_logic_3 0 0.5 0.5 1.5
-/vis/geometry/set/forceSolid Layer_logic_3
-
-/vis/geometry/set/colour Dummy_logic 0 0.5 1.5 1.5
-/vis/geometry/set/forceSolid Dummy_logic
-
-
 /vis/scene/add/date
 /vis/scene/add/hits
+
+

@@ -8,7 +8,7 @@
 using namespace CLHEP;
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
-    /*std::random_device rd;
+    std::random_device rd;
     std::uniform_int_distribution<long> uid(0, LONG_MAX);
     long seed = uid(rd);
     fParticleGun->SetParticlePosition(G4ThreeVector(0, 0, 0));
@@ -19,7 +19,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent) {
         fParticleGun->SetParticleMomentumDirection(G4ThreeVector(x, y, z));
         fParticleGun->SetParticleEnergy(500 * MeV);
         fParticleGun->GeneratePrimaryVertex(anEvent);
-    }*/
+    }
 
 }
 
