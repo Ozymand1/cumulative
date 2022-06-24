@@ -72,7 +72,7 @@ G4VPhysicalVolume* DetectorConstruction::CreateEnergyDetector(G4LogicalVolume *w
     G4cout<<CalculateSize(abs(Energy_position.z())/cm)<<G4endl;
     G4cout<<theta_1<<" "<<cos((pi - theta_2  + deltaTheta / 2))<<" "<<tan(deltaTheta/2)<<G4endl;
     auto Energy_solid = new G4Box("Energy_solid", size, size, 15 * cm);
-    auto Energy_logic = new G4LogicalVolume(Energy_solid,
+    Energy_logic = new G4LogicalVolume(Energy_solid,
                                             Energy_mat,
                                             "Energy_logic");
 
@@ -85,7 +85,7 @@ G4VPhysicalVolume* DetectorConstruction::CreateEnergyDetector(G4LogicalVolume *w
                                          "Energy_detector",
                                          world_logic,
                                          false,
-                                         0);
+                                         5);
 
     return Energy_phys;
 }
@@ -94,7 +94,7 @@ G4VPhysicalVolume* DetectorConstruction::CreateTrackingDetector(G4LogicalVolume 
     auto Rotation_Matrix = new G4RotationMatrix();
     Rotation_Matrix->rotateX(- (pi - theta_2 + deltaTheta / 2));
     auto Track_solid = new G4Box("Tracking_solid", Track_size, Track_size, Track_lenght);
-    auto Track_logic = new G4LogicalVolume(Track_solid,
+    Track_logic = new G4LogicalVolume(Track_solid,
                                            vacuum,
                                            "Track_logic");
     auto Track_phys = new G4PVPlacement(Rotation_Matrix,
@@ -104,25 +104,46 @@ G4VPhysicalVolume* DetectorConstruction::CreateTrackingDetector(G4LogicalVolume 
                                         world_logic,
                                         false,
                                         0);
-    std::cout<<Track_position.z()/cm<<std::endl;
-    G4LogicalVolume* Layer_logic[Number_of_tracking_layers];
+
+    G4LogicalVolume* Layer_logic_arr[Number_of_tracking_layers];
     G4double parts = 1.0/(Number_of_tracking_layers-1);
+
+    auto Layer_solid = new G4Box("layer_solid", Track_size, Track_size, layer_width);
+    Layer_logic = new G4LogicalVolume(Layer_solid,
+                                      Track_mat,
+                                      "layer_logic");
+
     for (int i = 0; i < Number_of_tracking_layers; i++) {
         auto x = 0;
         auto y = 0;
         auto z =  - i * (Track_lenght * parts - 0.5 * layer_width) + 0.5 * Track_lenght;
         G4ThreeVector position = G4ThreeVector(x,y,z);
         z = -1 * Track_distance_from_target - 0.5 * layer_width- i * (Track_lenght * parts - 0.5 * layer_width);
-        Layer_logic[i] = CreateTrackingLayer(i);
         std::cout<<z/cm<<std::endl;
         auto Layer_phys = new G4PVPlacement(0,
                                             position,
-                                            Layer_logic[i],
+                                            Layer_logic,
+                                            "Tracking_Layer",
+                                            Track_logic,
+                                            false,
+                                            i+1);
+    }
+    /*for (int i = 0; i < Number_of_tracking_layers; i++) {
+        auto x = 0;
+        auto y = 0;
+        auto z =  - i * (Track_lenght * parts - 0.5 * layer_width) + 0.5 * Track_lenght;
+        G4ThreeVector position = G4ThreeVector(x,y,z);
+        z = -1 * Track_distance_from_target - 0.5 * layer_width- i * (Track_lenght * parts - 0.5 * layer_width);
+        Layer_logic_arr[i] = CreateTrackingLayer(i);
+        std::cout<<z/cm<<std::endl;
+        auto Layer_phys = new G4PVPlacement(0,
+                                            position,
+                                            Layer_logic_arr[i],
                                             "Tracking_Layer",
                                             Track_logic,
                                             false,
                                             0);
-    }
+    }*/
     return Track_phys;
 }
 
@@ -130,7 +151,7 @@ G4LogicalVolume* DetectorConstruction::CreateTrackingLayer(int number) {
     std::string  solid_name = "Layer_solid_" + to_string(number);
     std::string  logic_name = "Layer_logic_" + to_string(number);
     auto Layer_solid = new G4Box(solid_name, Track_size, Track_size, layer_width);
-    auto Layer_logic = new G4LogicalVolume(Layer_solid,
+    Layer_logic = new G4LogicalVolume(Layer_solid,
                                            Track_mat,
                                            logic_name);
     return Layer_logic;
@@ -139,15 +160,15 @@ G4LogicalVolume* DetectorConstruction::CreateTrackingLayer(int number) {
 G4VPhysicalVolume* DetectorConstruction::CreateTOFstopDetector(G4LogicalVolume *world_logic) {
     auto Rotation_Matrix = new G4RotationMatrix();
     Rotation_Matrix->rotateX(- (pi - theta_2 + deltaTheta / 2));
-    auto TOF_solid = new G4Box("PID_solid", TOF_stop_size, TOF_stop_size, Track_lenght);
-    auto TOF_logic = new G4LogicalVolume(TOF_solid, TOF_mat, "TOF_logic");
+    auto TOF_solid = new G4Box("PID_solid", TOF_stop_size, TOF_stop_size, TOF_stop_lenght);
+    TOF_logic = new G4LogicalVolume(TOF_solid, TOF_mat, "TOF_logic");
     auto TOF_phys = new G4PVPlacement(Rotation_Matrix,
                                       TOF_stop_position,
                                       TOF_logic,
                                       "PID_detector",
                                       world_logic,
                                       false,
-                                      0);
+                                      4);
     G4cout<<TOF_stop_position/cm<<G4endl;
     return TOF_phys;
 }
@@ -165,7 +186,15 @@ void DetectorConstruction::InitializeMaterials() {
 void DetectorConstruction::ConstructSDandField() {
     G4VUserDetectorConstruction::ConstructSDandField();
     auto SDmanager = G4SDManager::GetSDMpointer();
-    auto Detector = new SensetiveDetector("Detector", tupleId);
-    SDmanager->AddNewDetector(Detector);
+    auto Track = new SensetiveDetector("Track", tupleId);
+    auto TOF = new SensetiveDetector("TOF", tupleId);
+    auto Energy = new SensetiveDetector("Energy", tupleId);
+    SDmanager->AddNewDetector(Track);
+    SDmanager->AddNewDetector(TOF);
+    SDmanager->AddNewDetector(Energy);
+    Layer_logic->SetSensitiveDetector(Track);
+    TOF_logic->SetSensitiveDetector(TOF);
+    Energy_logic->SetSensitiveDetector(Energy);
+
 }
 

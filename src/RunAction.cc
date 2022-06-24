@@ -14,6 +14,7 @@ void RunAction::BeginOfRunAction(const G4Run *aRun) {
     analysisManager->CreateNtupleDColumn("mom");
     analysisManager->CreateNtupleDColumn("tof");
     analysisManager->CreateNtupleDColumn("det");
+    analysisManager->CreateNtupleDColumn("number");
     analysisManager->FinishNtuple(hits);
     analysisManager->FillNtupleDColumn(hits, 2);
     tupleId->hitsId = hits;

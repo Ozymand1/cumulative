@@ -29,5 +29,6 @@ private:
     G4LogicalVolume* CreateDetector();
     G4LogicalVolume* logicWorld;
     TupleId* tupleId;
+    G4LogicalVolume* TOF_logic, *Track_logic, *Energy_logic, *Layer_logic;
     void InitializeMaterials();
 };

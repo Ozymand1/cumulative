@@ -22,20 +22,14 @@
 /vis/geometry/set/forceSolid Energy_logic
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Layer_logic_0 0 0.5 0.5 1.5
-/vis/scene/notifyHandlers
 /vis/geometry/set/forceSolid Layer_logic_0
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour Layer_logic_1 0 0.5 0.5 1.5
-/vis/scene/notifyHandlers
 /vis/geometry/set/forceSolid Layer_logic_1
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour Layer_logic_2 0 0.5 0.5 1.5
-/vis/scene/notifyHandlers
 /vis/geometry/set/forceSolid Layer_logic_2
-/vis/scene/notifyHandlers
 /vis/scene/add/date
 /vis/scene/notifyHandlers
 /vis/scene/add/hits
 /vis/scene/notifyHandlers
-/run/beamOn 1
+/run/beamOn 100
 /vis/scene/notifyHandlers scene-0

@@ -10,13 +10,13 @@ const G4ThreeVector target_position = G4ThreeVector(0 * cm,0 * cm, 0 * cm);
 const G4double target_lenght = 0.5 * cm;
 const G4double target_diameter = 10 * cm;
 
-const G4String TOF_stop_material = "G4_Si";
-const G4ThreeVector TOF_stop_position = G4ThreeVector(0 * cm,180 * tan(pi- theta_2 + deltaTheta / 2) * cm,-180 * cm);
+const G4String TOF_stop_material = "G4_PLASTIC_SC_VINYLTOLUENE";
+const G4ThreeVector TOF_stop_position = G4ThreeVector(0 * cm,40 * tan(pi- theta_2 + deltaTheta / 2) * cm,-40 * cm);
 const G4double TOF_stop_lenght = 0.2 * cm;
 const G4double TOF_stop_size = 50 * cm;
 
 const G4String Energy_material = "G4_Pb";
-const G4ThreeVector Energy_position = G4ThreeVector(0 * cm,200 * tan(pi- theta_2 + deltaTheta / 2) * cm, -200 * cm);
+const G4ThreeVector Energy_position = G4ThreeVector(0 * cm,50 * tan(pi- theta_2 + deltaTheta / 2) * cm, -50 * cm);
 const G4double Energy_lenght = 20 * cm;
 const G4double Energy_width = 50 * cm;
 const G4double Energy_height = 30 * cm;
